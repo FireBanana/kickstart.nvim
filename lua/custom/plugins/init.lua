@@ -3,6 +3,9 @@
 --
 -- See the kickstart.nvim README for more information
 -- vim.keymap.set('n', '<C-b>', '<Cmd>Neotree toggle<CR>')
+
+vim.opt.foldmethod = 'indent'
+
 vim.keymap.set('n', '<leader>e', function()
   require('neo-tree.command').execute { toggle = true }
 end)
