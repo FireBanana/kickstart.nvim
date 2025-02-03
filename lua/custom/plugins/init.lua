@@ -31,6 +31,19 @@ function SwitchHeaderSource()
 end
 
 return {
+  -- LazySpec (plugin specification)
+  -- return {
+  {
+    'dasupradyumna/midnight.nvim',
+    lazy = false,
+    priority = 999,
+    config = function()
+      vim.cmd.colorscheme 'midnight'
+    end,
+  },
+  -- `lazy` and `priority` are only needed if this is your primary colorscheme to load it first
+  -- }
+  { 'rcarriga/nvim-dap-ui', dependencies = { 'mfussenegger/nvim-dap', 'nvim-neotest/nvim-nio' } },
   {
     'ibhagwan/fzf-lua',
     -- optional for icon support
