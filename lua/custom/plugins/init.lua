@@ -5,6 +5,7 @@
 -- vim.keymap.set('n', '<C-b>', '<Cmd>Neotree toggle<CR>')
 
 vim.opt.foldmethod = 'indent'
+vim.opt.wrap = false
 
 vim.keymap.set('n', '<leader>e', function()
   require('neo-tree.command').execute { toggle = true }
@@ -14,6 +15,10 @@ vim.api.nvim_set_keymap('n', '<F4>', [[:lua SwitchHeaderSource()<CR>]], { norema
 vim.keymap.set('n', 'fr', function()
   require('telescope.builtin').lsp_references()
 end, { noremap = true, silent = true })
+
+vim.keymap.set('n', '<leader>ca', function()
+  vim.lsp.buf.code_action()
+end, { noremap = true, silent = true, desc = '[C]ode [A]ction' })
 
 function SwitchHeaderSource()
   local file = vim.fn.expand '%'
@@ -31,14 +36,17 @@ function SwitchHeaderSource()
 end
 
 return {
+  {
+    'tpope/vim-fugitive',
+  },
   -- LazySpec (plugin specification)
   -- return {
   {
-    'dasupradyumna/midnight.nvim',
+    'rebelot/kanagawa.nvim',
     lazy = false,
     priority = 999,
     config = function()
-      vim.cmd.colorscheme 'midnight'
+      -- vim.cmd.colorscheme 'midnight'
     end,
   },
   -- `lazy` and `priority` are only needed if this is your primary colorscheme to load it first
