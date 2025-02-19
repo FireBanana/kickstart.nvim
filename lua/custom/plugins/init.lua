@@ -11,6 +11,25 @@ vim.keymap.set('n', '<leader>e', function()
   require('neo-tree.command').execute { toggle = true }
 end)
 
+-- Fullsceen toggle ---------
+
+local fullscreen = false
+
+function ToggleFullscreen()
+  if fullscreen then
+    vim.cmd 'q'
+    fullscreen = false
+  else
+    vim.cmd 'tab split'
+    fullscreen = true
+  end
+end
+
+-- Keymap to toggle fullscreen with F5
+vim.api.nvim_set_keymap('n', '<F5>', ':lua ToggleFullscreen()<CR>', { noremap = true, silent = true })
+
+-----------------------------
+
 vim.api.nvim_set_keymap('n', '<F4>', [[:lua SwitchHeaderSource()<CR>]], { noremap = true, silent = true })
 vim.keymap.set('n', 'fr', function()
   require('telescope.builtin').lsp_references()
@@ -46,7 +65,7 @@ return {
     lazy = false,
     priority = 999,
     config = function()
-      -- vim.cmd.colorscheme 'midnight'
+      vim.cmd.colorscheme 'kanagawa'
     end,
   },
   -- `lazy` and `priority` are only needed if this is your primary colorscheme to load it first
@@ -60,15 +79,12 @@ return {
     -- dependencies = { "echasnovski/mini.icons" },
     opts = {},
     config = function()
-      vim.keymap.set('n', '<leader>sb', function()
+      vim.keymap.set('n', '<leader><leader>', function()
         require('fzf-lua').buffers()
-      end, { desc = '[S]earch [B]uffers' })
+      end, { desc = '[S]earch Buffers' })
       vim.keymap.set('n', '<leader>sf', function()
         require('fzf-lua').files()
       end, { desc = '[S]earch [F]iles' })
-      vim.keymap.set('n', '<leader><leader>', function()
-        require('fzf-lua').oldfiles()
-      end, { desc = 'Search Recent' })
       vim.keymap.set('n', '<leader>sg', function()
         require('fzf-lua').grep()
       end, { desc = '[S]earch [G]rep' })

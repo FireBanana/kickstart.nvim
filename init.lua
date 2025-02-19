@@ -713,11 +713,35 @@ require('lazy').setup({
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
+        c = { 'clang_format_custom' },
+        cpp = { 'clang_format_custom' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
+      },
+      formatters = {
+        clang_format_custom = {
+          command = 'clang-format',
+          args = function(ctx)
+            local dirname = ctx.dirname or vim.fn.getcwd()
+
+            local local_config = vim.fn.findfile('.clang-format', dirname .. ';')
+            local fallback_config
+            if vim.fn.has 'win32' == 1 then
+              fallback_config = vim.fn.expand '$LOCALAPPDATA/nvim/.clang-format'
+            else
+              fallback_config = vim.fn.expand '~/.config/.clang-format'
+            end
+
+            if local_config and local_config ~= '' then
+              return { '--assume-filename=' .. local_config }
+            else
+              return { '--assume-filename=' .. fallback_config }
+            end
+          end,
+        },
       },
     },
   },
