@@ -732,7 +732,7 @@ require('lazy').setup({
             if vim.fn.has 'win32' == 1 then
               fallback_config = vim.fn.expand '$LOCALAPPDATA/nvim/.clang-format'
             else
-              fallback_config = vim.fn.expand '~/.config/.clang-format'
+              fallback_config = vim.fn.expand '~/.config/nvim/.clang-format'
             end
 
             if local_config and local_config ~= '' then
