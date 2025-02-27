@@ -30,6 +30,12 @@ vim.api.nvim_set_keymap('n', '<F5>', ':lua ToggleFullscreen()<CR>', { noremap = 
 
 -----------------------------
 
+-- Map cursor movement
+vim.api.nvim_set_keymap('i', '<C-h>', '<Left>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '<C-j>', '<Down>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '<C-k>', '<Up>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '<C-l>', '<Right>', { noremap = true, silent = true })
+
 vim.api.nvim_set_keymap('n', '<F4>', [[:lua SwitchHeaderSource()<CR>]], { noremap = true, silent = true })
 vim.keymap.set('n', 'fr', function()
   require('telescope.builtin').lsp_references()
@@ -55,13 +61,13 @@ function SwitchHeaderSource()
 end
 
 return {
-	{
-	    "lukas-reineke/indent-blankline.nvim",
-	    main = "ibl",
-	    ---@module "ibl"
-	    ---@type ibl.config
-	    opts = {},
-	},
+  {
+    'lukas-reineke/indent-blankline.nvim',
+    main = 'ibl',
+    ---@module "ibl"
+    ---@type ibl.config
+    opts = {},
+  },
   {
     'tpope/vim-fugitive',
   },
