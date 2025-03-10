@@ -37,9 +37,9 @@ vim.api.nvim_set_keymap('i', '<C-k>', '<Up>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('i', '<C-l>', '<Right>', { noremap = true, silent = true })
 
 vim.api.nvim_set_keymap('n', '<F4>', [[:lua SwitchHeaderSource()<CR>]], { noremap = true, silent = true })
-vim.keymap.set('n', 'fr', function()
-  require('telescope.builtin').lsp_references()
-end, { noremap = true, silent = true })
+-- vim.keymap.set('n', 'fr', function()
+--   require('telescope.builtin').lsp_references()
+-- end, { noremap = true, silent = true })
 
 vim.keymap.set('n', '<leader>ca', function()
   vim.lsp.buf.code_action()
@@ -83,7 +83,6 @@ return {
   },
   -- `lazy` and `priority` are only needed if this is your primary colorscheme to load it first
   -- }
-  { 'rcarriga/nvim-dap-ui', dependencies = { 'mfussenegger/nvim-dap', 'nvim-neotest/nvim-nio' } },
   {
     'ibhagwan/fzf-lua',
     -- optional for icon support
@@ -104,6 +103,9 @@ return {
       vim.keymap.set('n', '<leader>sr', function()
         require('fzf-lua').lsp_references()
       end, { desc = '[S]earch [R]eference' })
+      vim.keymap.set('n', '<leader>sc', function()
+        require('fzf-lua').resume()
+      end, { desc = '[S]earch [C]ontinue' })
 
       -- vim.api.nvim_set_keymap('n', '<leader>sp', [[<Cmd>lua require"fzf-lua".files()<CR>]], {})
       -- vim.api.nvim_set_keymap('n', '<leader>sl', [[<Cmd>lua require"fzf-lua".live_grep_glob()<CR>]], {})
