@@ -7,9 +7,20 @@
 vim.opt.foldmethod = 'indent'
 vim.opt.wrap = false
 
+vim.opt.relativenumber = true
+
 vim.keymap.set('n', '<leader>e', function()
   require('neo-tree.command').execute { toggle = true }
 end)
+
+-- Remap help jump tags -----
+
+vim.api.nvim_create_autocmd({ 'FileType' }, {
+  pattern = { 'help' },
+  callback = function(opts)
+    vim.keymap.set('n', 'gd', '<C-]>', { silent = true, buffer = opts.buf })
+  end,
+})
 
 -- Fullsceen toggle ---------
 
@@ -63,6 +74,7 @@ end
 return {
   {
     'mhinz/vim-randomtag',
+    event = 'VeryLazy',
   },
   {
     'lukas-reineke/indent-blankline.nvim',
@@ -70,9 +82,11 @@ return {
     ---@module "ibl"
     ---@type ibl.config
     opts = {},
+    event = 'VeryLazy',
   },
   {
     'tpope/vim-fugitive',
+    event = 'VeryLazy',
   },
   -- LazySpec (plugin specification)
   -- return {
@@ -93,6 +107,7 @@ return {
     -- or if using mini.icons/mini.nvim
     -- dependencies = { "echasnovski/mini.icons" },
     opts = {},
+    event = 'VeryLazy',
     config = function()
       vim.keymap.set('n', '<leader><leader>', function()
         require('fzf-lua').buffers()
@@ -125,5 +140,6 @@ return {
       'MunifTanjim/nui.nvim',
       -- {"3rd/image.nvim", opts = {}}, -- Optional image support in preview window: See `# Preview Mode` for more information
     },
+    event = 'VeryLazy',
   },
 }
