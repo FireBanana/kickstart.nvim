@@ -4,6 +4,11 @@
 -- See the kickstart.nvim README for more information
 -- vim.keymap.set('n', '<C-b>', '<Cmd>Neotree toggle<CR>')
 
+-- Defer notifications to avoid glitching dashboard
+vim.opt.termguicolors = true
+
+-- Set the font and size
+vim.opt.guifont = 'Jetbrains Mono:h11'
 vim.opt.foldmethod = 'indent'
 vim.opt.wrap = false
 
@@ -73,6 +78,18 @@ end
 
 return {
   {
+    'rmagatti/auto-session',
+    lazy = false,
+
+    ---enables autocomplete for opts
+    ---@module "auto-session"
+    ---@type AutoSession.Config
+    opts = {
+      suppressed_dirs = { '~/', '~/Projects', '~/Downloads', '/' },
+      -- log_level = 'debug',
+    },
+  },
+  {
     'mhinz/vim-randomtag',
     event = 'VeryLazy',
   },
@@ -81,7 +98,7 @@ return {
     main = 'ibl',
     ---@module "ibl"
     ---@type ibl.config
-    opts = {},
+    opts = { exclude = { filetypes = { 'dashboard' } } },
     event = 'VeryLazy',
   },
   {
@@ -142,4 +159,45 @@ return {
     },
     event = 'VeryLazy',
   },
+  {
+    'folke/persistence.nvim',
+    event = 'BufReadPre', -- load before buffers open
+    opts = {
+      options = { 'buffers', 'curdir', 'tabpages', 'winsize' },
+    },
+  },
+  -- {
+  --   'nvimdev/dashboard-nvim',
+  --   priority = 1000,
+  --   event = 'VimEnter',
+  --   config = function()
+  --     require('dashboard').setup {
+  --       theme = 'hyper', -- or "doom"
+  --       config = {
+  --         week_header = {
+  --           enable = true,
+  --         },
+  --         shortcut = {
+  --           { desc = '  Recently Used Files', group = 'Label', action = 'Telescope oldfiles', key = 'r' },
+  --           { desc = '  New File', group = 'Label', action = 'ene | startinsert', key = 'n' },
+  --           {
+  --             desc = '  Restore Last Session',
+  --             group = 'Label',
+  --             action = "lua require('persistence').load()",
+  --             key = 's',
+  --           },
+  --           {
+  --             desc = '  Restore Last Dir Session',
+  --             group = 'Label',
+  --             action = "lua require('persistence').load({ last = true })",
+  --             key = 'l',
+  --           },
+  --           { desc = '  Quit', group = 'DiagnosticError', action = 'qa', key = 'q' },
+  --         },
+  --         footer = { '🚀 Happy coding!' },
+  --       },
+  --     }
+  --   end,
+  --   dependencies = { { 'nvim-tree/nvim-web-devicons' } },
+  -- },
 }
