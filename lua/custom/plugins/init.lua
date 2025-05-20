@@ -20,10 +20,12 @@ end)
 
 -- Remap help jump tags -----
 
+vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = '[G]oto [D]efinition' })
+
 vim.api.nvim_create_autocmd({ 'FileType' }, {
   pattern = { 'help' },
   callback = function(opts)
-    vim.keymap.set('n', 'gd', '<C-]>', { silent = true, buffer = opts.buf })
+    vim.keymap.set('n', 'gd', '<C-]>', { noremap = true, silent = true, buffer = opts.buf })
   end,
 })
 
@@ -43,14 +45,12 @@ end
 
 -- Keymap to toggle fullscreen with F5
 vim.api.nvim_set_keymap('n', '<F5>', ':lua ToggleFullscreen()<CR>', { noremap = true, silent = true })
-
 -----------------------------
-
 -- Map cursor movement
-vim.api.nvim_set_keymap('i', '<C-h>', '<Left>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('i', '<C-j>', '<Down>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('i', '<C-k>', '<Up>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('i', '<C-l>', '<Right>', { noremap = true, silent = true })
+vim.keymap.set('i', '<C-h>', '<Left>', { noremap = true, silent = true })
+vim.keymap.set('i', '<C-j>', '<Down>', { noremap = true, silent = true })
+vim.keymap.set('i', '<C-k>', '<Up>', { noremap = true, silent = true })
+vim.keymap.set('i', '<C-l>', '<Right>', { noremap = true, silent = true })
 
 vim.api.nvim_set_keymap('n', '<F4>', [[:lua SwitchHeaderSource()<CR>]], { noremap = true, silent = true })
 -- vim.keymap.set('n', 'fr', function()
@@ -166,38 +166,4 @@ return {
       options = { 'buffers', 'curdir', 'tabpages', 'winsize' },
     },
   },
-  -- {
-  --   'nvimdev/dashboard-nvim',
-  --   priority = 1000,
-  --   event = 'VimEnter',
-  --   config = function()
-  --     require('dashboard').setup {
-  --       theme = 'hyper', -- or "doom"
-  --       config = {
-  --         week_header = {
-  --           enable = true,
-  --         },
-  --         shortcut = {
-  --           { desc = '  Recently Used Files', group = 'Label', action = 'Telescope oldfiles', key = 'r' },
-  --           { desc = '  New File', group = 'Label', action = 'ene | startinsert', key = 'n' },
-  --           {
-  --             desc = '  Restore Last Session',
-  --             group = 'Label',
-  --             action = "lua require('persistence').load()",
-  --             key = 's',
-  --           },
-  --           {
-  --             desc = '  Restore Last Dir Session',
-  --             group = 'Label',
-  --             action = "lua require('persistence').load({ last = true })",
-  --             key = 'l',
-  --           },
-  --           { desc = '  Quit', group = 'DiagnosticError', action = 'qa', key = 'q' },
-  --         },
-  --         footer = { '🚀 Happy coding!' },
-  --       },
-  --     }
-  --   end,
-  --   dependencies = { { 'nvim-tree/nvim-web-devicons' } },
-  -- },
 }
