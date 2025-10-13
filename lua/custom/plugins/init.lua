@@ -8,8 +8,8 @@
 vim.opt.termguicolors = true
 
 -- Set the font and size
-vim.opt.guifont = 'Jetbrains Mono:h11'
 vim.opt.foldmethod = 'indent'
+vim.opt.foldlevelstart = 99 -- Start unfolded
 vim.opt.wrap = false
 
 vim.opt.relativenumber = true
@@ -108,11 +108,11 @@ return {
   -- LazySpec (plugin specification)
   -- return {
   {
-    'rebelot/kanagawa.nvim',
+    'thallada/farout.nvim',
     lazy = false,
-    priority = 999,
+    priority = 1000,
     config = function()
-      vim.cmd.colorscheme 'kanagawa'
+      vim.cmd.colorscheme 'farout'
     end,
   },
   -- `lazy` and `priority` are only needed if this is your primary colorscheme to load it first
@@ -165,5 +165,15 @@ return {
     opts = {
       options = { 'buffers', 'curdir', 'tabpages', 'winsize' },
     },
+  },
+  {
+    'nvimdev/dashboard-nvim',
+    event = 'VimEnter',
+    config = function()
+      require('dashboard').setup {
+        -- config
+      }
+    end,
+    dependencies = { { 'nvim-tree/nvim-web-devicons' } },
   },
 }
