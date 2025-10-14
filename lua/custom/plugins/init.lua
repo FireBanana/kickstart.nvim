@@ -8,9 +8,8 @@
 vim.opt.termguicolors = true
 
 -- Set the font and size
-vim.opt.foldmethod = 'indent'
-vim.opt.foldlevelstart = 99 -- Start unfolded
-vim.opt.wrap = false
+vim.opt.foldmethod = 'expr'
+vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 
 vim.opt.relativenumber = true
 
