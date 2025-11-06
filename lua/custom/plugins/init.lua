@@ -12,6 +12,9 @@ vim.opt.foldmethod = 'expr'
 vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 
 vim.opt.relativenumber = true
+vim.opt.shiftwidth = 4
+vim.opt.tabstop = 4
+vim.opt.expandtab = true
 
 vim.keymap.set('n', '<leader>e', function()
   require('neo-tree.command').execute { toggle = true }
