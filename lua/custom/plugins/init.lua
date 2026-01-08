@@ -129,18 +129,6 @@ return {
     'tpope/vim-fugitive',
     event = 'VeryLazy',
   },
-  -- LazySpec (plugin specification)
-  -- return {
-  {
-    'sainnhe/everforest',
-    lazy = false,
-    priority = 1000,
-    config = function()
-      vim.cmd.colorscheme 'everforest'
-    end,
-  },
-  -- `lazy` and `priority` are only needed if this is your primary colorscheme to load it first
-  -- }
   {
     'ibhagwan/fzf-lua',
     -- optional for icon support
