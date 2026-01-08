@@ -4,6 +4,45 @@
 -- See the kickstart.nvim README for more information
 -- vim.keymap.set('n', '<C-b>', '<Cmd>Neotree toggle<CR>')
 
+-- NEOVIDE SPECIFIC SETTINGS --
+if vim.g.neovide then
+  local function adjust_font_size(amount)
+    local curr_font = vim.o.guifont
+
+    -- If guifont is empty, we can't determine the current size/font
+    if curr_font == '' then
+      print 'Guifont is empty; cannot resize.'
+      return
+    end
+
+    -- Lua pattern matching
+    -- We look for the pattern ":h" followed by digits (%d+)
+    local name, size = curr_font:match '([^:]+):h(%d+)'
+
+    -- Check if we successfully parsed the string
+    if name and size then
+      local new_size = tonumber(size) + amount
+
+      -- Prevent font size from becoming 0 or negative
+      if new_size < 1 then
+        new_size = 1
+      end
+
+      -- Apply the new font string
+      vim.o.guifont = name .. ':h' .. new_size
+
+      -- Optional: Print feedback
+      print('Font size set to: ' .. new_size)
+    else
+      print 'Could not parse current font size format.'
+    end
+  end
+
+  vim.g.neovide_opacity = 0.9
+  -- fidget.notify 'THIS IS SOME MESSAGE'
+  -- vim.o.guifont = adjust_font_size(2)
+end
+
 -- Defer notifications to avoid glitching dashboard
 vim.opt.termguicolors = true
 
@@ -17,7 +56,7 @@ vim.opt.tabstop = 4
 vim.opt.expandtab = true
 
 vim.keymap.set('n', '<leader>e', function()
-  require('neo-tree.command').execute { toggle = true }
+  require('neo-tree.command').execute { reveal = true, toggle = true }
 end)
 
 -- Remap help jump tags -----
@@ -31,23 +70,6 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
   end,
 })
 
--- Fullsceen toggle ---------
-
-local fullscreen = false
-
-function ToggleFullscreen()
-  if fullscreen then
-    vim.cmd 'q'
-    fullscreen = false
-  else
-    vim.cmd 'tab split'
-    fullscreen = true
-  end
-end
-
--- Keymap to toggle fullscreen with F5
-vim.api.nvim_set_keymap('n', '<F5>', ':lua ToggleFullscreen()<CR>', { noremap = true, silent = true })
------------------------------
 -- Map cursor movement
 vim.keymap.set('i', '<C-h>', '<Left>', { noremap = true, silent = true })
 vim.keymap.set('i', '<C-j>', '<Down>', { noremap = true, silent = true })
@@ -167,16 +189,6 @@ return {
     opts = {
       options = { 'buffers', 'curdir', 'tabpages', 'winsize' },
     },
-  },
-  {
-    'nvimdev/dashboard-nvim',
-    event = 'VimEnter',
-    config = function()
-      require('dashboard').setup {
-        -- config
-      }
-    end,
-    dependencies = { { 'nvim-tree/nvim-web-devicons' } },
   },
   {
     'Bekaboo/dropbar.nvim',
