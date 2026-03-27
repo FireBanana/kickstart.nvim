@@ -102,18 +102,6 @@ end
 
 return {
   {
-    'rmagatti/auto-session',
-    lazy = false,
-
-    ---enables autocomplete for opts
-    ---@module "auto-session"
-    ---@type AutoSession.Config
-    opts = {
-      suppressed_dirs = { '~/', '~/Projects', '~/Downloads', '/' },
-      -- log_level = 'debug',
-    },
-  },
-  {
     'mhinz/vim-randomtag',
     event = 'VeryLazy',
   },
@@ -125,10 +113,10 @@ return {
     opts = { exclude = { filetypes = { 'dashboard' } } },
     event = 'VeryLazy',
   },
-  {
-    'tpope/vim-fugitive',
-    event = 'VeryLazy',
-  },
+  -- {
+  --   'tpope/vim-fugitive',
+  --   event = 'VeryLazy',
+  -- },
   {
     'ibhagwan/fzf-lua',
     -- optional for icon support
@@ -171,13 +159,13 @@ return {
     },
     event = 'VeryLazy',
   },
-  {
-    'folke/persistence.nvim',
-    event = 'BufReadPre', -- load before buffers open
-    opts = {
-      options = { 'buffers', 'curdir', 'tabpages', 'winsize' },
-    },
-  },
+  -- {
+  --   'folke/persistence.nvim',
+  --   event = 'BufReadPre', -- load before buffers open
+  --   opts = {
+  --     options = { 'buffers', 'curdir', 'tabpages', 'winsize' },
+  --   },
+  -- },
   {
     'Bekaboo/dropbar.nvim',
     -- optional, but required for fuzzy finder support
@@ -191,5 +179,12 @@ return {
       vim.keymap.set('n', '[;', dropbar_api.goto_context_start, { desc = 'Go to start of current context' })
       vim.keymap.set('n', '];', dropbar_api.select_next_context, { desc = 'Select next context' })
     end,
+  },
+  {
+    'catppuccin/nvim',
+    name = 'catppuccin',
+    opts = {
+      transparent_background = true,
+    },
   },
 }
