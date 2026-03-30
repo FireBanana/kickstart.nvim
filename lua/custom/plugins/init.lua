@@ -113,10 +113,6 @@ return {
     opts = { exclude = { filetypes = { 'dashboard' } } },
     event = 'VeryLazy',
   },
-  -- {
-  --   'tpope/vim-fugitive',
-  --   event = 'VeryLazy',
-  -- },
   {
     'ibhagwan/fzf-lua',
     -- optional for icon support
@@ -159,13 +155,6 @@ return {
     },
     event = 'VeryLazy',
   },
-  -- {
-  --   'folke/persistence.nvim',
-  --   event = 'BufReadPre', -- load before buffers open
-  --   opts = {
-  --     options = { 'buffers', 'curdir', 'tabpages', 'winsize' },
-  --   },
-  -- },
   {
     'Bekaboo/dropbar.nvim',
     -- optional, but required for fuzzy finder support
@@ -184,7 +173,8 @@ return {
     'catppuccin/nvim',
     name = 'catppuccin',
     opts = {
-      transparent_background = true,
+      transparent_background = false,
+      priority = 1000,
     },
   },
 }
