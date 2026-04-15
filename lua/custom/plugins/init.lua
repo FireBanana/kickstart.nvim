@@ -6,41 +6,7 @@
 
 -- NEOVIDE SPECIFIC SETTINGS --
 if vim.g.neovide then
-  local function adjust_font_size(amount)
-    local curr_font = vim.o.guifont
-
-    -- If guifont is empty, we can't determine the current size/font
-    if curr_font == '' then
-      print 'Guifont is empty; cannot resize.'
-      return
-    end
-
-    -- Lua pattern matching
-    -- We look for the pattern ":h" followed by digits (%d+)
-    local name, size = curr_font:match '([^:]+):h(%d+)'
-
-    -- Check if we successfully parsed the string
-    if name and size then
-      local new_size = tonumber(size) + amount
-
-      -- Prevent font size from becoming 0 or negative
-      if new_size < 1 then
-        new_size = 1
-      end
-
-      -- Apply the new font string
-      vim.o.guifont = name .. ':h' .. new_size
-
-      -- Optional: Print feedback
-      print('Font size set to: ' .. new_size)
-    else
-      print 'Could not parse current font size format.'
-    end
-  end
-
-  vim.g.neovide_opacity = 0.9
-  -- fidget.notify 'THIS IS SOME MESSAGE'
-  -- vim.o.guifont = adjust_font_size(2)
+  vim.o.guifont = 'monospace:h9'
 end
 
 -- Defer notifications to avoid glitching dashboard
@@ -100,6 +66,8 @@ function SwitchHeaderSource()
   end
 end
 
+vim.cmd.colorscheme 'qtcreator-dark-2024'
+
 return {
   {
     'mhinz/vim-randomtag',
@@ -158,10 +126,10 @@ return {
   {
     'Bekaboo/dropbar.nvim',
     -- optional, but required for fuzzy finder support
-    dependencies = {
-      'nvim-telescope/telescope-fzf-native.nvim',
-      build = 'make',
-    },
+    -- dependencies = {
+    --   'nvim-telescope/telescope-fzf-native.nvim',
+    --   build = 'make',
+    -- },
     config = function()
       local dropbar_api = require 'dropbar.api'
       vim.keymap.set('n', '<Leader>;', dropbar_api.pick, { desc = 'Pick symbols in winbar' })
@@ -169,12 +137,12 @@ return {
       vim.keymap.set('n', '];', dropbar_api.select_next_context, { desc = 'Select next context' })
     end,
   },
-  {
-    'catppuccin/nvim',
-    name = 'catppuccin',
-    opts = {
-      transparent_background = false,
-      priority = 1000,
-    },
-  },
+  -- {
+  --   'catppuccin/nvim',
+  --   name = 'catppuccin',
+  --   opts = {
+  --     transparent_background = false,
+  --     priority = 1000,
+  --   },
+  -- },
 }
