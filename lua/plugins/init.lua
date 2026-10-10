@@ -11,7 +11,7 @@ vim.api.nvim_create_autocmd('PackChanged', {
     if ev.data.kind ~= 'install' and ev.data.kind ~= 'update' then
       return
     end
-    -- On fresh installs treesitter's own `ensure_installed` downloads the parsers
+    -- On fresh installs plugins/treesitter.lua installs the parsers
     if ev.data.spec.name == 'nvim-treesitter' and ev.data.kind == 'update' then
       vim.schedule(function()
         vim.cmd 'TSUpdate'
@@ -43,8 +43,8 @@ vim.pack.add {
   'https://github.com/lukas-reineke/indent-blankline.nvim', -- Indent guides
   'https://github.com/Bekaboo/dropbar.nvim', -- Breadcrumbs in the winbar
 
-  -- Treesitter (pinned to master: the `main` branch is a rewrite with a different API)
-  { src = 'https://github.com/nvim-treesitter/nvim-treesitter', version = 'master' },
+  -- Treesitter (`main` branch: `master` is frozen and breaks on Neovim 0.12; needs the tree-sitter CLI)
+  { src = 'https://github.com/nvim-treesitter/nvim-treesitter', version = 'main' },
 
   -- LSP
   'https://github.com/neovim/nvim-lspconfig', -- Default configs for language servers
