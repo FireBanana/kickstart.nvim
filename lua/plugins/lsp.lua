@@ -13,8 +13,6 @@ require('lazydev').setup {
 -- LSP status updates
 require('fidget').setup {}
 
-require('mason').setup()
-
 -- Language servers to install and enable. The config table of each entry is
 -- merged into the nvim-lspconfig defaults; available keys include:
 --  - cmd (table): Override the default command used to start the server
@@ -22,7 +20,7 @@ require('mason').setup()
 --  - capabilities (table): Override fields in capabilities
 --  - settings (table): Override the default settings passed when initializing the server
 local servers = {
-  -- clangd = {},
+  clangd = {},
   -- See `:help lspconfig-all` for all pre-configured servers
   lua_ls = {
     settings = {
@@ -49,6 +47,8 @@ require('mason-lspconfig').setup { ensure_installed = vim.tbl_keys(servers) }
 require('mason-tool-installer').setup {
   ensure_installed = {
     'stylua', -- Used to format Lua code
+    'clang-format', -- Used to format C/C++ code
+    'tree-sitter-cli', -- Needed by nvim-treesitter to build parsers
   },
 }
 
@@ -96,6 +96,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     -- Jump to where a variable/function was first declared or defined. To jump back, press <C-t>.
     map('grd', fzf.lsp_definitions, '[G]oto [D]efinition')
+    map('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
 
     -- WARN: Not Goto Definition; e.g. in C this takes you to the header
     map('grD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
@@ -129,7 +130,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
       vim.api.nvim_create_autocmd('LspDetach', {
         group = vim.api.nvim_create_augroup('lsp-detach', { clear = true }),
         callback = function(event2)
-          vim.lsp.buf.clear_references()
+          vim.lsp.util.buf_clear_references(event2.buf)
           vim.api.nvim_clear_autocmds { group = 'lsp-highlight', buffer = event2.buf }
         end,
       })

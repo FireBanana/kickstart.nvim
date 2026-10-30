@@ -4,10 +4,13 @@
 local ts = require 'nvim-treesitter'
 
 -- Installs asynchronously; already-installed parsers are skipped
-ts.install { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
+ts.install { 'bash', 'c', 'cpp', 'cmake', 'qmljs', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
 
 -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules
 local regex_languages = { ruby = true }
+
+-- Languages where Vim's built-in indent (cindent) beats treesitter's experimental one
+local keep_indent_languages = { c = true, cpp = true }
 
 local function attach(buf, lang)
   if not vim.api.nvim_buf_is_valid(buf) or not pcall(vim.treesitter.start, buf, lang) then
@@ -15,7 +18,7 @@ local function attach(buf, lang)
   end
   if regex_languages[lang] then
     vim.bo[buf].syntax = 'on'
-  else
+  elseif not keep_indent_languages[lang] then
     vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
   end
 end

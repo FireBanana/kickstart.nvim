@@ -24,23 +24,39 @@ vim.keymap.set('i', '<C-k>', '<Up>', { silent = true })
 vim.keymap.set('i', '<C-l>', '<Right>', { silent = true })
 
 -- LSP shortcuts
-vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = '[G]oto [D]efinition' })
 vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, { silent = true, desc = '[C]ode [A]ction' })
 
--- Switch between C/C++ header and source
-local function switch_header_source()
-  local file = vim.fn.expand '%'
-  local extension = vim.fn.expand '%:e'
+-- Switch between C/C++ header and source. Uses clangd when attached, otherwise
+-- looks for a sibling file with a matching extension.
+local header_exts = { 'h', 'hpp', 'hh', 'hxx' }
+local source_exts = { 'cpp', 'cc', 'cxx', 'c' }
 
-  if extension == 'h' then
-    vim.cmd('e ' .. file:gsub('%.h$', '.cpp'))
-  elseif extension == 'hpp' then
-    vim.cmd('e ' .. file:gsub('%.hpp$', '.cpp'))
-  elseif extension == 'cpp' then
-    vim.cmd('e ' .. file:gsub('%.cpp$', '.h'))
-  else
-    print 'Not a header or source file'
+local function switch_header_source()
+  if #vim.lsp.get_clients { bufnr = 0, name = 'clangd' } > 0 then
+    vim.cmd 'LspClangdSwitchSourceHeader'
+    return
   end
+
+  local extension = vim.fn.expand '%:e'
+  local candidates
+  if vim.tbl_contains(header_exts, extension) then
+    candidates = source_exts
+  elseif vim.tbl_contains(source_exts, extension) then
+    candidates = header_exts
+  else
+    vim.notify('Not a header or source file', vim.log.levels.WARN)
+    return
+  end
+
+  local root = vim.fn.expand '%:r'
+  for _, ext in ipairs(candidates) do
+    local path = root .. '.' .. ext
+    if vim.uv.fs_stat(path) then
+      vim.cmd.edit(vim.fn.fnameescape(path))
+      return
+    end
+  end
+  vim.notify('No matching header/source file found', vim.log.levels.WARN)
 end
 
 vim.keymap.set('n', '<F4>', switch_header_source, { silent = true, desc = 'Switch header/source' })

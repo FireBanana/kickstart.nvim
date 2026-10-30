@@ -62,6 +62,9 @@ vim.pack.add {
   'https://github.com/stevearc/conform.nvim',
 }
 
+-- Set up mason first so its bin dir (tree-sitter CLI, clang-format, ...) is on PATH
+require('mason').setup()
+
 require 'plugins.editor'
 require 'plugins.ui'
 require 'plugins.treesitter'

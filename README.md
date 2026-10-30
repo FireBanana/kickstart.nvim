@@ -23,6 +23,6 @@ colors/                     Qt Creator colorschemes
 
 ## Managing plugins
 
-- Update: `:lua vim.pack.update()`
+- Update: `:PackUpdate` (or `:lua vim.pack.update()`)
 - Add: append to `vim.pack.add` in `lua/plugins/init.lua`, restart
 - Remove: delete the entry, then `:lua vim.pack.del { 'name' }`

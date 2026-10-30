@@ -33,22 +33,12 @@ conform.setup {
     -- when the project doesn't have one
     clang_format_custom = {
       command = 'clang-format',
-      args = function(ctx)
-        local dirname = ctx.dirname or vim.fn.getcwd()
-
-        local local_config = vim.fn.findfile('.clang-format', dirname .. ';')
-        local fallback_config
-        if vim.fn.has 'win32' == 1 then
-          fallback_config = vim.fn.expand '$LOCALAPPDATA/nvim/.clang-format'
-        else
-          fallback_config = vim.fn.expand '~/.config/nvim/.clang-format'
+      args = function(_, ctx)
+        local args = { '--assume-filename', ctx.filename }
+        if vim.fn.findfile('.clang-format', ctx.dirname .. ';') == '' then
+          table.insert(args, '--style=file:' .. vim.fn.stdpath 'config' .. '/.clang-format')
         end
-
-        if local_config and local_config ~= '' then
-          return { '--assume-filename=' .. local_config }
-        else
-          return { '--assume-filename=' .. fallback_config }
-        end
+        return args
       end,
     },
   },

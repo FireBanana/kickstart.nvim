@@ -44,12 +44,14 @@ require('which-key').setup {
     { '<leader>s', group = '[S]earch' },
     { '<leader>f', group = '[F]ormat' },
     { '<leader>t', group = '[T]oggle' },
+    { '<leader>c', group = '[C]ode' },
+    { 'gr', group = 'LSP' },
   },
 }
 
 -- Statusline
 local statusline = require 'mini.statusline'
-statusline.setup { use_icons = true }
+statusline.setup { use_icons = vim.g.have_nerd_font }
 
 -- Show cursor location as LINE:COLUMN
 ---@diagnostic disable-next-line: duplicate-set-field

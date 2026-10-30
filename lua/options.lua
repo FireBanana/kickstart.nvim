@@ -27,6 +27,7 @@ vim.o.breakindent = true
 -- Folding via treesitter
 vim.o.foldmethod = 'expr'
 vim.o.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+vim.o.foldlevel = 99 -- Start with all folds open
 
 -- Save undo history
 vim.o.undofile = true
